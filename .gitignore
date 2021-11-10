@@ -1,0 +1,4 @@
+/.idea/
+/Object_Detection/data/VOCdevkit/VOC2007/
+/Object_Detection/faster_rcnn/model_data/voc_weights_resnet.pth
+/Object_Detection/faster_rcnn/model_data/voc_weights_vgg.pth
