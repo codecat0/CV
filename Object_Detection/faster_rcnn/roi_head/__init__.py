@@ -7,3 +7,5 @@
 # version    ：python 3.7
 # Software   ：Pycharm
 """
+from resnet_roi_head import *
+from vgg_roi_head import *

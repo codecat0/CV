@@ -7,3 +7,5 @@
 # version    ：python 3.7
 # Software   ：Pycharm
 """
+from resnet import *
+from vggnet import *
