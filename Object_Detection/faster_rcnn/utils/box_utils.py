@@ -9,7 +9,7 @@
 """
 import torch
 import math
-
+import numpy as np
 
 
 def loc2bbox(src_bbox, loc, box_xform_clip=math.log(1000. / 16)):
@@ -45,41 +45,37 @@ def loc2bbox(src_bbox, loc, box_xform_clip=math.log(1000. / 16)):
 
 
 def bbox2loc(src_bbox, dst_bbox):
-    src_width = src_bbox[:, 2] - src_bbox[:, 0]
-    src_height = src_bbox[:, 3] - src_bbox[:, 1]
-    src_center_x = src_bbox[:, 0] + 0.5 * src_width
-    src_center_y = src_bbox[:, 1] + 0.5 * src_height
+    width = src_bbox[:, 2] - src_bbox[:, 0]
+    height = src_bbox[:, 3] - src_bbox[:, 1]
+    ctr_x = src_bbox[:, 0] + 0.5 * width
+    ctr_y = src_bbox[:, 1] + 0.5 * height
 
-    dst_width = dst_bbox[:, 2] - dst_bbox[:, 0]
-    dst_height = dst_bbox[:, 3] - dst_bbox[:, 1]
-    dst_center_x = dst_bbox[:, 0] + 0.5 * dst_width
-    dst_center_y = dst_bbox[:, 1] + 0.5 * dst_height
+    base_width = dst_bbox[:, 2] - dst_bbox[:, 0]
+    base_height = dst_bbox[:, 3] - dst_bbox[:, 1]
+    base_ctr_x = dst_bbox[:, 0] + 0.5 * base_width
+    base_ctr_y = dst_bbox[:, 1] + 0.5 * base_height
 
-    # 防止分母为0或log中元素为负的情况
-    eps = torch.finfo(src_height.dtype).eps
-    src_width = torch.clamp(src_width, min=eps)
-    src_height = torch.clamp(src_height, min=eps)
+    # 防止分母为0或log出现负数情况
+    eps = np.finfo(height.dtype).eps
+    width = np.maximum(width, eps)
+    height = np.maximum(height, eps)
 
-    dx = (dst_center_x - src_center_x) / src_width
-    dy = (dst_center_y - src_center_y) / src_height
-    dw = torch.log(dst_width / src_width)
-    dh = torch.log(dst_height/ src_height)
+    dx = (base_ctr_x - ctr_x) / width
+    dy = (base_ctr_y - ctr_y) / height
+    dw = np.log(base_width / width)
+    dh = np.log(base_height / height)
 
-    loc = torch.stack((dx, dy, dw, dh), dim=-1)
+    loc = np.vstack((dx, dy, dw, dh)).transpose()
     return loc
 
 
-def bbox_area(bbox):
-    return (bbox[:, 2] - bbox[:, 0]) * (bbox[:, 3] - bbox[:, 1])
-
-def box_iou(bbox_a, bbox_b):
-    area_a, area_b = bbox_area(bbox_a), bbox_area(bbox_b)
-
-    left_top = torch.max(bbox_a[:, None, :2], bbox_b[:, :2])
-    right_bottom = torch.min(bbox_a[:, None, 2:], bbox_b[:, 2:])
-
-    wh = (right_bottom - left_top).clamp(min=0)
-    inter = wh[:, :, 0] * wh[:, :, 1]
-
-    iou = inter / (area_a[:, None] + area_b - inter)
-    return iou
+def bbox_iou(bbox_a, bbox_b):
+    if bbox_a.shape[1] != 4 or bbox_b.shape[1] != 4:
+        print(bbox_a, bbox_b)
+        raise IndexError
+    tl = np.maximum(bbox_a[:, None, :2], bbox_b[:, :2])
+    br = np.minimum(bbox_a[:, None, 2:], bbox_b[:, 2:])
+    area_i = np.prod(br - tl, axis=2) * (tl < br).all(axis=2)
+    area_a = np.prod(bbox_a[:, 2:] - bbox_a[:, :2], axis=1)
+    area_b = np.prod(bbox_b[:, 2:] - bbox_b[:, :2], axis=1)
+    return area_i / (area_a[:, None] + area_b - area_i)
