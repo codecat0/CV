@@ -9,9 +9,11 @@
 """
 import torch.nn as nn
 
-from ..backbones import resnet50, vgg16
-from ..rpn import RegionProposalNetwork
-from ..roi_head import ResNet50RoIHead, VGG16RoIHead
+from backbones.vggnet import vgg16
+from backbones.resnet import resnet50
+from rpn.rpn_net import RegionProposalNetwork
+from roi_head.vgg_roi_head import VGG16RoIHead
+from roi_head.resnet_roi_head import ResNet50RoIHead
 
 
 class FasterRCNN(nn.Module):

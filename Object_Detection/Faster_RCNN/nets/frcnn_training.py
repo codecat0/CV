@@ -13,7 +13,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from ..utils import bbox_iou, bbox2loc
+from utils.box_utils import bbox_iou, bbox2loc
 
 
 class AnchorTargetCreator(object):
@@ -190,7 +190,7 @@ class FasterRCNNTrainer(nn.Module):
         )
 
         regresion_loss = regresion_loss.sum()
-        num_pos = (gt_label>0).num().float()
+        num_pos = (gt_label>0).sum().float()
         regresion_loss /= torch.max(num_pos, torch.ones_like(num_pos))
         return regresion_loss
 
@@ -217,7 +217,7 @@ class FasterRCNNTrainer(nn.Module):
             # 利用真实框和先验框获得建议框网络应该有的预测结果，给每个先验框都打上标签
             gt_rpn_loc, gt_rpn_label = self.anchor_target_creator(bbox, anchor)
             gt_rpn_loc = torch.as_tensor(gt_rpn_loc, device=rpn_loc.device)
-            gt_rpn_label = torch.as_tensor(gt_rpn_label, device=rpn_loc.device)
+            gt_rpn_label = torch.as_tensor(gt_rpn_label, device=rpn_loc.device).long()
 
             # 分别计算建议框网络的回归损失和分类损失
             rpn_loc_loss = self._faster_rcnn_loc_loss(
@@ -242,11 +242,11 @@ class FasterRCNNTrainer(nn.Module):
             )
             sample_roi = torch.as_tensor(sample_roi, device=feature.device)
             gt_roi_loc = torch.as_tensor(gt_roi_loc, device=feature.device)
-            gt_roi_label = torch.as_tensor(gt_rpn_label, device=feature.device)
+            gt_roi_label = torch.as_tensor(gt_roi_label, device=feature.device).long()
             sample_roi_index = torch.zeros(len(sample_roi), device=feature.device)
 
             roi_cls_loc, roi_score = self.faster_rcnn.head(
-                torch.unsqueeze(base_feature, 0),
+                torch.unsqueeze(feature, 0),
                 sample_roi,
                 sample_roi_index,
                 img_size
