@@ -88,13 +88,13 @@ class DecodeBox(object):
         self.std = std
         self.num_classes = num_classes
 
-    def forward(self, roi_cls_loc, roi_scores, rois, image_shape, input_shape, nms_iou=0.3, confidence=0.5):
+    def forward(self, roi_cls_locs, roi_scores, rois, image_shape, input_shape, nms_iou=0.3, confidence=0.5):
         results = []
-        batch_size = len(roi_cls_loc)
+        batch_size = len(roi_cls_locs)
         rois = rois.view((batch_size, -1, 4))
         # 对每一张图片进行处理
         for i in range(batch_size):
-            roi_cls_loc = roi_cls_loc[i] * self.std
+            roi_cls_loc = roi_cls_locs[i] * self.std
             roi_cls_loc = roi_cls_loc.view((-1, self.num_classes, 4))
 
             roi = rois[i].view((-1, 1, 4)).expand_as(roi_cls_loc)
