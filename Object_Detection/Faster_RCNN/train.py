@@ -28,7 +28,6 @@ def main(args):
     device = torch.device('cpu')
     cuda = device == torch.device('cuda')
 
-
     input_shape = (600, 600)
     anchor_scales = (8, 16, 32)
 
@@ -125,7 +124,6 @@ def main(args):
     if epoch_step == 0 or epoch_step_val == 0:
         raise ValueError('dataset is too small, can not train, please expand dataset')
 
-
     if batch_size < 4:
         model.freeze_bn()
 
@@ -218,7 +216,6 @@ def main(args):
             cuda=cuda
         )
         lr_scheduler.step()
-
 
 
 if __name__ == '__main__':
