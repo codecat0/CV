@@ -7,8 +7,3 @@
 # version    ：python 3.7
 # Software   ：Pycharm
 """
-from anchor_utils import *
-from box_utils import *
-from data_utils import *
-from callbacks import *
-from train_utils import *

@@ -7,5 +7,3 @@
 # version    ：python 3.7
 # Software   ：Pycharm
 """
-from faster_rcnn import *
-from frcnn_training import *
