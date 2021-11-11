@@ -223,7 +223,7 @@ if __name__ == '__main__':
     parser.add_argument('--classes_path', type=str, default='./model_data/voc_classes.txt')
     parser.add_argument('--backbone', type=str, default='resnet50')
     parser.add_argument('--pretrained', action='store_true')
-    parser.add_argument('--model_path', type=str, default='')
+    parser.add_argument('--model_path', type=str, default='./model_data/voc_weights_resnet.pth')
     parser.add_argument('--train_annotation_path', type=str, default='./model_data/train.txt')
     parser.add_argument('--val_annotation_path', type=str, default='./model_data/val.txt')
     parser.add_argument('--freeze_train', action='store_true')

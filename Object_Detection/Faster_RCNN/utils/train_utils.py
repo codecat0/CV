@@ -48,7 +48,7 @@ def train_one_epoch(model, trainer, loss_history, optimizer, epoch, epoch_step, 
                     'rpn_loc_loss': rpn_loc_loss / (iteration + 1),
                     'rpn_cls_loss': rpn_cls_loss / (iteration + 1),
                     'roi_loc_loss': roi_loc_loss / (iteration + 1),
-                    'roi_cls_locc': roi_cls / (iteration + 1),
+                    'roi_cls_loss': roi_cls_loss / (iteration + 1),
                     'lr': get_lr(optimizer)
                 }
             )
