@@ -86,7 +86,7 @@ def bbox_iou(bbox_a, bbox_b):
 class DecodeBox(object):
     def __init__(self, std, num_classes):
         self.std = std
-        self.num_classes = num_classes
+        self.num_classes = num_classes + 1
 
     def forward(self, roi_cls_locs, roi_scores, rois, image_shape, input_shape, nms_iou=0.3, confidence=0.5):
         results = []
@@ -128,3 +128,6 @@ class DecodeBox(object):
 
                     c_pred = torch.cat((good_boxes, confs, labels), dim=1).cpu().numpy()
                     results[-1].extend(c_pred)
+            if len(results[-1]) > 0:
+                results[-1] = np.array(results[-1])
+        return results
