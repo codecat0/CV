@@ -274,3 +274,10 @@ class FasterRCNNTrainer(nn.Module):
         losses = [rpn_loc_loss_all/n, rpn_cls_loss_all/n, roi_loc_loss_all/n, roi_cls_loss_all/n]
         losses = losses + [sum(losses)]
         return losses
+
+    def train_step(self, imgs, bboxes, labels, scale):
+        self.optimizer.zero_grad()
+        losses = self.forward(imgs, bboxes, labels, scale)
+        losses[-1].backward()
+        self.optimizer.step()
+        return losses
