@@ -44,7 +44,7 @@ def train_one_epoch(model, trainer, loss_history, optimizer, epoch, epoch_step, 
 
             pbar.set_postfix(
                 **{
-                    'total_loss' : total_loss / (iteration + 1),
+                    'total_loss': total_loss / (iteration + 1),
                     'rpn_loc_loss': rpn_loc_loss / (iteration + 1),
                     'rpn_cls_loss': rpn_cls_loss / (iteration + 1),
                     'roi_loc_loss': roi_loc_loss / (iteration + 1),
