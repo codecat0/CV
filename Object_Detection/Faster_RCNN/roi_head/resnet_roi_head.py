@@ -22,9 +22,9 @@ class ResNet50RoIHead(nn.Module):
             spatial_scale=spatial_scale
         )
         # 对ROIPooling后的的结果进行回归预测
-        self.cls_loc = nn.Linear(2048, n_classes)
+        self.cls_loc = nn.Linear(2048, n_classes * 4)
         # 对ROIPooling后的的结果进行分类
-        self.sore = nn.Linear(2048, n_classes)
+        self.score = nn.Linear(2048, n_classes)
 
     def forward(self, x, rois, roi_indices, img_size):
         n, _, h, w = x.shape
@@ -40,7 +40,7 @@ class ResNet50RoIHead(nn.Module):
         indices_and_rois = torch.cat([roi_indices[:, None], rois_feature_map], dim=1)
 
         # 利用建议框对公用特征层进行截取并进行ROIPooling
-        pool = self.roi(x, indices_and_rois)
+        pool = self.roi(x, indices_and_rois.float())
 
         # 利用classifier网络进行特征提取
         fc7 = self.classifier(pool)
