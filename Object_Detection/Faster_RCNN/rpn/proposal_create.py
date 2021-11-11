@@ -10,7 +10,7 @@
 import torch
 from torchvision.ops import nms
 
-from ..utils.box_utils import loc2bbox
+from utils.box_utils import loc2bbox
 
 
 class ProposalGreator(object):
@@ -69,7 +69,7 @@ class ProposalGreator(object):
 
         # 建议框的宽高的最小值不可以小于min_size * sclae
         min_size = self.min_size * scale
-        keep = torch.where(((roi[:, 2] - roi[:, 0]) >= min_size) and ((roi[:, 3] - roi[:, 1]) >= min_size))[0]
+        keep = torch.where(((roi[:, 2] - roi[:, 0]) >= min_size) & ((roi[:, 3] - roi[:, 1]) >= min_size))[0]
 
         roi = roi[keep, :]
         score = score[keep]

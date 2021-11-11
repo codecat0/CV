@@ -14,8 +14,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchvision.ops import nms
 
-from ..utils.anchor_utils import enumerate_shifted_anchor, generate_base_anchor
-from ..utils.box_utils import loc2bbox
+from utils.anchor_utils import enumerate_shifted_anchor, generate_base_anchor
 from .proposal_create import ProposalGreator
 
 
@@ -73,7 +72,7 @@ class RegionProposalNetwork(nn.Module):
         # 回归预测对先验框进行调整
         rpn_locs = self.loc(x)
         # shape: (b, c, h, w) -> (b, h, w, c) -> (b, h * w * num_anchor, 2)
-        rpn_locs = rpn_locs.permute(0, 2, 3, 1).contiguous().view(n, -1, 2)
+        rpn_locs = rpn_locs.permute(0, 2, 3, 1).contiguous().view(n, -1, 4)
 
         # 生成先验框，此时获得的anchor是布满网格点的
         anchor = enumerate_shifted_anchor(
