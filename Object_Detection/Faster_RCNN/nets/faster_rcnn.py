@@ -10,7 +10,8 @@
 import torch.nn as nn
 
 from backbones.vggnet import vgg16
-from backbones.resnet import resnet50
+# from backbones.resnet import resnet50
+from backbones.resnet50 import resnet50
 from rpn.rpn_net import RegionProposalNetwork
 from roi_head.vgg_roi_head import VGG16RoIHead
 from roi_head.resnet_roi_head import ResNet50RoIHead

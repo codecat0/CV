@@ -226,12 +226,12 @@ class FRCNNPredictor(object):
 if __name__ == '__main__':
     frcnn_predictor = FRCNNPredictor()
     # mode用于指定测试的模式：
-    mode = 'predict'
+    mode = 'video'
     # video_path用于指定视频的路径，当video_path=0时表示检测摄像头
     # video_save_path表示视频保存的路径，当video_save_path=""时表示不保存
     # video_fps用于保存的视频的fps
-    vidio_path = 0
-    vidio_save_path = ""
+    vidio_path = "./imgs/v.mp4"
+    vidio_save_path = "./imgs/detect_v.mp4"
     vidio_fps = 25.0
     # test_interval用于指定测量fps的时候，图片检测的次数
     test_interval = 100

@@ -3,3 +3,5 @@
 /Object_Detection/Faster_RCNN/model_data/voc_weights_resnet.pth
 /Object_Detection/Faster_RCNN/model_data/voc_weights_vgg.pth
 /Object_Detection/Faster_RCNN/backbones/resnet50.py
+/Object_Detection/Faster_RCNN/imgs/detect_v.mp4
+/Object_Detection/Faster_RCNN/imgs/v.mp4
