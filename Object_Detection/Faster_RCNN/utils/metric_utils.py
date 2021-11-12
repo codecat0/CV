@@ -213,3 +213,184 @@ def draw_plot_func(dictionary, n_classes, window_title, plot_title, x_label, out
     plt.close()
 
 
+def get_map(MINOVERLAP, draw_plot, path='./map_out'):
+    GT_PATH = os.path.join(path, 'ground-truth')
+    DR_PATH = os.path.join(path, 'detection-results')
+    IMG_PATH = os.path.join(path, 'image-optional')
+    TEMP_FILES_PATH = os.path.join(path, '.temp_files')
+    RESULTS_FILES_PATH = os.path.join(path, 'results')
+
+    show_animation = True
+    if os.path.exists(IMG_PATH):
+        for dirpath, dirnames, files in os.walk(IMG_PATH):
+            if not files:
+                show_animation = False
+    else:
+        show_animation = False
+
+    if not os.path.exists(TEMP_FILES_PATH):
+        os.makedirs(TEMP_FILES_PATH)
+    if not os.path.exists(RESULTS_FILES_PATH):
+        os.makedirs(RESULTS_FILES_PATH)
+    if draw_plot:
+        os.makedirs(os.path.join(RESULTS_FILES_PATH, 'AP'))
+        os.makedirs(os.path.join(RESULTS_FILES_PATH, 'F1'))
+        os.makedirs(os.path.join(RESULTS_FILES_PATH, 'Recall'))
+        os.makedirs(os.path.join(RESULTS_FILES_PATH, 'Precision'))
+    if show_animation:
+        os.makedirs(os.path.join(RESULTS_FILES_PATH, 'images', 'detections_one_by_one'))
+
+    ground_truth_files_list = glob.glob(GT_PATH + '/*.txt')
+    if len(ground_truth_files_list) == 0:
+        error("Error: No ground-truth files found!")
+    ground_truth_files_list.sort()
+    gt_counter_per_class = {}
+    counter_images_per_class = {}
+
+    for txt_file in ground_truth_files_list:
+        file_id = txt_file.split('.txt', 1)[0]
+        file_id = os.path.basename(os.path.normpath(file_id))
+        temp_path = os.path.join(DR_PATH, (file_id + '.txt'))
+        if not os.path.exists(temp_path):
+            error("Error: File not found: {}\n".format(temp_path))
+        line_list = file_lines_to_list(txt_file)
+        bounding_boxes = []
+        is_difficult = False
+        already_seen_classes = []
+        for line in line_list:
+            try:
+                if 'difficult' in line:
+                    class_name, left, top, right, bottom, _difficult = line.split()
+                    is_difficult = True
+                else:
+                    class_name, left, top, right, bottom = line.split()
+            except:
+                line_split = line.split()
+                class_name = ""
+                if 'difficult' in line:
+                    _difficult = line_split[-1]
+                    bottom = line_split[-2]
+                    right = line_split[-3]
+                    top = line_split[-4]
+                    left = line_split[-5]
+                    for name in line_split[:-5]:
+                        class_name += name + " "
+                    class_name = class_name[:-1]
+                    is_difficult = True
+                else:
+                    bottom = line_split[-1]
+                    right = line_split[-2]
+                    top = line_split[-3]
+                    left = line_split[-4]
+                    for name in line_split[:-4]:
+                        class_name += name + " "
+                    class_name = class_name[:-1]
+
+            bbox = left + " " + top + " " + right + " " + bottom
+            if is_difficult:
+                bounding_boxes.append(
+                    {
+                        'class_name': class_name,
+                        'bbox': bbox,
+                        'used': False,
+                        'difficult': True
+                    }
+                )
+            else:
+                bounding_boxes.append(
+                    {
+                        'class_name': class_name,
+                        'bbox': bbox,
+                        'used': False
+                    }
+                )
+
+                if class_name in gt_counter_per_class:
+                    gt_counter_per_class[class_name] += 1
+                else:
+                    gt_counter_per_class[class_name] = 1
+
+                if class_name not in already_seen_classes:
+                    if class_name in counter_images_per_class:
+                        counter_images_per_class[class_name] += 1
+                    else:
+                        counter_images_per_class[class_name] = 1
+                    already_seen_classes.append(class_name)
+
+        with open(TEMP_FILES_PATH, '/', file_id + '_ground_truth.json', 'w') as oufile:
+            json.dump(bounding_boxes, oufile)
+
+    gt_classes = list(gt_counter_per_class.keys())
+    gt_classes = sorted(gt_classes)
+    n_classes = len(gt_classes)
+
+    dr_files_list = glob.glob(DR_PATH + '/*.txt')
+    dr_files_list.sort()
+    for class_index, class_name in enumerate(gt_classes):
+        bounding_boxes = []
+        for txt_file in dr_files_list:
+            file_id = txt_file.split('.txt', 1)[0]
+            file_id = os.path.basename(os.path.normpath(file_id))
+            temp_path = os.path.join(GT_PATH, (file_id + '.txt'))
+            if class_index == 0:
+                if not os.path.exists(temp_path):
+                    error("Error: File not found: {}\n.".format(temp_path))
+            lines = file_lines_to_list(txt_file)
+            for line in lines:
+                try:
+                    tmp_class_name, confidence, left, top, right, bottom = line.split()
+                except:
+                    line_split = line.split()
+                    bottom = line_split[-1]
+                    right = line_split[-2]
+                    top = line_split[-3]
+                    left = line_split[-4]
+                    confidence = line_split[-5]
+                    tmp_class_name = ""
+                    for name in line_split[:-5]:
+                        tmp_class_name += name + " "
+                    tmp_class_name = tmp_class_name[:-1]
+
+                if tmp_class_name == class_name:
+                    bbox = left + " " + top + " " + right + " " + bottom
+                    bounding_boxes.append(
+                        {
+                            'confidence': confidence,
+                            'file_id': file_id,
+                            'bbox': bbox
+                        }
+                    )
+
+        bounding_boxes.sort(key=lambda x: float(x['confidence']), reverse=True)
+        with open(TEMP_FILES_PATH + "/" + class_name + " _dr.json", 'w') as oufile:
+            json.dump(bounding_boxes, oufile)
+
+    sum_AP = 0.0
+    ap_dictionary = {}
+    lamr_dictionary = {}
+    with open(RESULTS_FILES_PATH + '/results.txt', 'w') as result_file:
+        result_file.write("# AP and precision/recall per class\n")
+        count_true_positive = {}
+
+        for class_index, class_name in enumerate(gt_classes):
+            dr_file = TEMP_FILES_PATH + "/" + class_name + "_dr.json"
+            dr_data = json.load(open(dr_file))
+
+            nd = len(dr_data)
+            tp = [0] * nd
+            fp = [0] * nd
+            score = [0] * nd
+            score05_idx = 0
+            for idx, detection in enumerate(dr_data):
+                file_id = detection['file_id']
+                score[idx] = float(detection['confidence'])
+                if score[idx] > 0.5:
+                    score05_idx = idx
+                if show_animation:
+                    ground_truth_img = glob.glob1(IMG_PATH, file_id + ".*")
+                    if len(ground_truth_img) == 0:
+                        error("Error: Image not found with id: " + file_id)
+                    elif len(ground_truth_img) > 1:
+                        error("Error: Multiple image with id: " + file_id)
+                    else:
+                        pass
