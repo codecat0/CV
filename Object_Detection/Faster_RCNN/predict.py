@@ -113,7 +113,7 @@ class FRCNNPredictor(object):
         # 设置字体与边框厚度
         font = ImageFont.truetype(font='./model_data/simhei.ttf',
                                   size=np.floor(3e-2 * image.size[1] + 0.5).astype('int32'))
-        thinckness = int(max((image.size[0] + image.size[1]) // np.mean(input_shape), 1))
+        thinckness = int(max((image.size[0] + image.size[1]) // np.mean(input_shape), 2))
 
         # 绘制图像
         for i, c in enumerate(top_label):
@@ -226,7 +226,7 @@ class FRCNNPredictor(object):
 if __name__ == '__main__':
     frcnn_predictor = FRCNNPredictor()
     # mode用于指定测试的模式：
-    mode = 'video'
+    mode = 'predict'
     # video_path用于指定视频的路径，当video_path=0时表示检测摄像头
     # video_save_path表示视频保存的路径，当video_save_path=""时表示不保存
     # video_fps用于保存的视频的fps
@@ -252,7 +252,7 @@ if __name__ == '__main__':
                 continue
             else:
                 r_image = frcnn_predictor.detect_image(image)
-                r_image.save('./imgs/detection_test.jpg')
+                r_image.save('./imgs/1_dr.jpg')
                 r_image.show()
 
     # 视频检测

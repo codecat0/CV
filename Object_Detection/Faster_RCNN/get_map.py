@@ -8,6 +8,7 @@
 # Software   ：Pycharm
 """
 import os
+import time
 import argparse
 import xml.etree.ElementTree as ET
 
@@ -88,5 +89,8 @@ if __name__ == '__main__':
     parser.add_argument('--map_vis', action='store_false')
     parser.add_argument('--min_overlap', type=float, default=0.5)
 
+    start = time.time()
     args = parser.parse_args()
     main(args)
+    end = time.time()
+    print('Get map consume {:.2f}s'.format(end-start))
