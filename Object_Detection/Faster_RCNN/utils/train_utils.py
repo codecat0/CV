@@ -54,34 +54,34 @@ def train_one_epoch(model, trainer, loss_history, optimizer, epoch, epoch_step, 
             )
             pbar.update(1)
 
-        print('Finish Train')
+    print('Finish Train')
 
-        print('Start Validation')
-        with tqdm(total=epoch_step_val, desc=f'Epoch {epoch + 1} / {sum_epoch}', postfix=dict, miniters=0.3) as pbar:
-            for iteration, batch in enumerate(val_loader):
-                if iteration >= epoch_step_val:
-                    break
-                images, boxes, labels = batch[0], batch[1], batch[2]
-                with torch.no_grad():
-                    images = torch.from_numpy(images).type(torch.FloatTensor)
-                    if cuda:
-                        images = images.cuda()
+    print('Start Validation')
+    with tqdm(total=epoch_step_val, desc=f'Epoch {epoch + 1} / {sum_epoch}', postfix=dict, miniters=0.3) as pbar:
+        for iteration, batch in enumerate(val_loader):
+            if iteration >= epoch_step_val:
+                break
+            images, boxes, labels = batch[0], batch[1], batch[2]
+            with torch.no_grad():
+                images = torch.from_numpy(images).type(torch.FloatTensor)
+                if cuda:
+                    images = images.cuda()
 
-                trainer.optimizer.zero_grad()
-                _, _, _, _, val_total = trainer.forward(images, boxes, labels, 1)
-                val_loss += val_total.item()
-                pbar.set_postfix(
-                    **{
-                        'val_loss': val_loss / (iteration + 1)
-                    }
-                )
-                pbar.update(1)
+            trainer.optimizer.zero_grad()
+            _, _, _, _, val_total = trainer.forward(images, boxes, labels, 1)
+            val_loss += val_total.item()
+            pbar.set_postfix(
+                **{
+                    'val_loss': val_loss / (iteration + 1)
+                }
+            )
+            pbar.update(1)
 
-        print('Finish Validation')
-        loss_history.append_loss(total_loss / epoch_step, val_loss / epoch_step)
-        print('Epoch:' + str(epoch+1) + '/' + str(sum_epoch))
-        print('Total Loss: %.3f || Val loss: %.3f' % (total_loss / epoch_step, val_loss /epoch_step))
-        torch.save(model.state_dict(), 'logs/ep%03d-loss%.3f-val_loss%.3f.pth' % (epoch+1, total_loss/epoch_step, val_loss/epoch_step))
+    print('Finish Validation')
+    loss_history.append_loss(total_loss / epoch_step, val_loss / epoch_step)
+    print('Epoch:' + str(epoch+1) + '/' + str(sum_epoch))
+    print('Total Loss: %.3f || Val loss: %.3f' % (total_loss / epoch_step, val_loss /epoch_step))
+    torch.save(model.state_dict(), 'logs/ep%03d-loss%.3f-val_loss%.3f.pth' % (epoch+1, total_loss/epoch_step, val_loss/epoch_step))
 
 
 def weight_init(net, init_type='normal', init_gain=0.02):
