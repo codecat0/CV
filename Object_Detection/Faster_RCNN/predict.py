@@ -232,7 +232,7 @@ if __name__ == '__main__':
     # video_fps用于保存的视频的fps
     vidio_path = "./imgs/v.mp4"
     vidio_save_path = "./imgs/detect_v.mp4"
-    vidio_fps = 25.0
+    vidio_fps = 60.0
     # test_interval用于指定测量fps的时候，图片检测的次数
     test_interval = 100
 
