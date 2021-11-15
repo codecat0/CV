@@ -45,7 +45,6 @@ def vgg(pretrained=False):
         state_dict = load_state_dict_from_url(url=vgg16_url, model_dir='./model_data')
         state_dict = {k.replace('features.', ''): v for k, v in state_dict.items()}
         model.load_state_dict(state_dict, strict=False)
-    print(layers)
     return model
 
 
