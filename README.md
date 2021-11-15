@@ -59,7 +59,7 @@
 ### 3. Faster R-CNN
  - [x] 论文地址: [https://arxiv.org/abs/1506.01497](https://arxiv.org/abs/1506.01497)
  - [x] 论文详解: [https://blog.csdn.net/qq_42735631/article/details/121164268](https://blog.csdn.net/qq_42735631/article/details/121164268)
- - [ ] 模型代码 
+ - [x] 模型代码: [https://github.com/codecat0/CV/tree/main/Object_Detection/Faster_RCNN](https://github.com/codecat0/CV/tree/main/Object_Detection/Faster_RCNN)
 ### 4. SSD 
  - [ ] 论文地址
  - [ ] 论文详解
