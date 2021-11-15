@@ -10,9 +10,9 @@
 import torch.nn as nn
 from torch.hub import load_state_dict_from_url
 
-
 vgg16_url = 'https://download.pytorch.org/models/vgg16-397923af.pth'
 base = [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 'C', 512, 512, 512, 'M', 512, 512, 512]
+
 
 def vgg(pretrained=False):
     layers = []
