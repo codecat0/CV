@@ -7,7 +7,7 @@
 # version    ：python 3.7
 # Software   ：Pycharm
 """
-import cv2
+from cv2 import cv2
 import numpy as np
 from PIL import Image
 from torch.utils.data.dataset import Dataset
