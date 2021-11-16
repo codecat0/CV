@@ -54,8 +54,3 @@ def get_classe(classes_path):
 def preprocess_input(inputs):
     MEANS = (104, 117, 123)
     return inputs - MEANS
-
-
-def get_lr(optimizer):
-    for param_group in optimizer.param_groups:
-        return param_group['lr']
