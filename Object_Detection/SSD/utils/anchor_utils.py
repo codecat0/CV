@@ -84,7 +84,7 @@ class AnchorBox(object):
 
 def get_output_length(height, width):
     """
-    用于计算共享特征层的大小
+    用于计算用于预测的特征层的大小
     """
     kernel_sizes = [2, 2, 2, 2, 3, 3, 3, 3]
     padding = [0, 0, 1, 0, 1, 1, 0, 0]
