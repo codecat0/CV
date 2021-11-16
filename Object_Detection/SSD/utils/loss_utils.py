@@ -67,7 +67,8 @@ class MultiboxLoss(nn.Module):
         confs_end = confs_start + self.num_classes - 1
 
         # 把没有包含物体并且将不是背景的概率求和，求和后的概率越大，代表越难分类样本
-        max_confs = (1 - y_true[:, :, -1]) * torch.sum(y_pred[:, :, confs_start:confs_end], dim=2).view(-1)
+        max_confs = (1 - y_true[:, :, -1]) * torch.sum(y_pred[:, :, confs_start:confs_end], dim=2)
+        max_confs = max_confs.view(-1)
 
         # 在整个batch里面选取最难分类的num_neg_batch个
         _, indices = torch.topk(max_confs, k=int(num_neg_batch.cpu().numpy()))

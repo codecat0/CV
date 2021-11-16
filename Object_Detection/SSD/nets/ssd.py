@@ -11,7 +11,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from vgg import vgg as add_vgg
+from .vgg import vgg as add_vgg
 
 
 class L2Norm(nn.Module):
@@ -72,7 +72,7 @@ class SSD300(nn.Module):
         self.num_classe = num_classes
         self.vgg = add_vgg(pretrained)
         self.extras = add_extras(in_channels=1024)
-        self.l2_norm = L2Norm(n_channels=512, scale=20)
+        self.L2Norm = L2Norm(n_channels=512, scale=20)
         mbox = [4, 6, 6, 6, 4, 4]
 
         loc_layers = []
@@ -106,7 +106,7 @@ class SSD300(nn.Module):
             x = self.vgg[i](x)
 
         # Conv4_2的输出需要进行L2标准化
-        s = self.l2_norm(x)
+        s = self.L2Norm(x)
         source.append(s)
 
         # 获得FC7的输出

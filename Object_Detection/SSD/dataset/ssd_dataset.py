@@ -11,7 +11,7 @@ from cv2 import cv2
 import numpy as np
 from PIL import Image
 from torch.utils.data.dataset import Dataset
-from data_utils import cvtColor, preprocess_input
+from .data_utils import cvtColor, preprocess_input
 
 
 class SSDDataset(Dataset):
@@ -48,10 +48,10 @@ class SSDDataset(Dataset):
             boxes[:, [0, 2]] /= self.input_shape[1]
             boxes[:, [1, 3]] /= self.input_shape[0]
             # 对真实框的种类进行one hot处理
-            one_hot_label = np.eye(self.num_anchors-1)[np.array(box[:, 4], np.int32)]
-            box = np.concatenate([boxes, one_hot_label], axis=1)
+            one_hot_label = np.eye(self.num_classes-1)[np.array(box[:, 4], np.int32)]
+            box = np.concatenate([boxes, one_hot_label], axis=-1)
 
-        box = self.assigin_boxer(boxes)
+        box = self.assigin_boxer(box)
         return np.array(image_data), np.array(box)
 
 
@@ -200,7 +200,7 @@ class SSDDataset(Dataset):
         box_wh = box[2:] - box[:2]
 
         assigned_anchors_center = (assigned_anchors[:, 0:2] + assigned_anchors[:, 2:4]) * 0.5
-        assigned_anchors_wh = assigned_anchors_center[:, 2:4] - assigned_anchors[:, 0:2]
+        assigned_anchors_wh = assigned_anchors[:, 2:4] - assigned_anchors[:, 0:2]
 
         encoded_box[:, :2][assign_mask] = box_center - assigned_anchors_center
         encoded_box[:, :2][assign_mask] /= assigned_anchors_wh
