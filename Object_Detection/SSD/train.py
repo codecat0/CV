@@ -16,7 +16,7 @@ from torch.utils.data import DataLoader
 from dataset.ssd_dataset import SSDDataset, ssd_dataset_collate
 from dataset.data_utils import get_classe
 from nets.ssd import SSD300
-from utils.anchor_utils import get_anchor
+from utils.anchor_utils import get_anchors
 from utils.loss_utils import MultiboxLoss, weights_init
 from utils.callbacks import LossHistory
 from utils.train_utils import train_one_epoch
@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
     class_names, num_classes = get_classe(classes_path)
     num_classes += 1
-    anchors = get_anchor(
+    anchors = get_anchors(
         input_shape=input_shape,
         anchor_size=anchor_sizes
     )
