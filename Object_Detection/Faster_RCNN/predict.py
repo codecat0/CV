@@ -252,7 +252,7 @@ if __name__ == '__main__':
                 continue
             else:
                 r_image = frcnn_predictor.detect_image(image)
-                r_image.save('./imgs/1_dr.jpg')
+                r_image.save('./img/1_dr.jpg')
                 r_image.show()
 
     # 视频检测
