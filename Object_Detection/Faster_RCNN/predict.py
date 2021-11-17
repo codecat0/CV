@@ -230,9 +230,9 @@ if __name__ == '__main__':
     # video_path用于指定视频的路径，当video_path=0时表示检测摄像头
     # video_save_path表示视频保存的路径，当video_save_path=""时表示不保存
     # video_fps用于保存的视频的fps
-    vidio_path = "./imgs/v.mp4"
-    vidio_save_path = "./imgs/detect_v.mp4"
-    vidio_fps = 60.0
+    video_path = "./imgs/v.mp4"
+    video_save_path = "./imgs/detect_v.mp4"
+    video_fps = 60.0
     # test_interval用于指定测量fps的时候，图片检测的次数
     test_interval = 100
 
@@ -257,11 +257,11 @@ if __name__ == '__main__':
 
     # 视频检测
     elif mode == 'video':
-        capture = cv2.VideoCapture(vidio_path)
-        if vidio_save_path != "":
+        capture = cv2.VideoCapture(video_path)
+        if video_save_path != "":
             fourcc = cv2.VideoWriter_fourcc(*'XVID')
             size = (int(capture.get(cv2.CAP_PROP_FRAME_WIDTH)), int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-            out = cv2.VideoWriter(vidio_save_path, fourcc, vidio_fps, size)
+            out = cv2.VideoWriter(video_save_path, fourcc, video_fps, size)
 
         fps = 0.0
         while True:
@@ -280,7 +280,7 @@ if __name__ == '__main__':
             frame = cv2.putText(frame, 'fps= %.2f' % fps, (0, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             cv2.imshow('video', frame)
             c = cv2.waitKey(1) & 0xff
-            if vidio_save_path != "":
+            if video_save_path != "":
                 out.write(frame)
 
             if c == 27:
