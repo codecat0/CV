@@ -9,16 +9,17 @@
 """
 import os
 import json
+import argparse
 
 import torch
 from PIL import Image
 from torchvision import transforms
 import matplotlib.pyplot as plt
 
-from ..models import alexnet
+from models.base_model import BaseModel
 
 
-def main():
+def main(args):
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
     data_transform = transforms.Compose(
@@ -30,7 +31,7 @@ def main():
         ]
     )
 
-    img_path = "../data/tulip.jpg"
+    img_path = args.img_path
     assert os.path.exists(img_path), f"file {img_path} dose not exist."
     img = Image.open(img_path)
     plt.imshow(img)
@@ -44,21 +45,32 @@ def main():
     json_file = open(json_path, 'r')
     class_indict = json.load(json_file)
 
-    model = alexnet(num_classes=5)
-    model_weight_path = "./weights/alexnet.pth"
-    model.load_state_dict(torch.load(model_weight_path, map_location=device))
+    model = BaseModel(name=args.model_name, num_classes=args.num_classes).to(device)
+
+    model.load_state_dict(torch.load(args.model_weight_path, map_location=device))
     model.eval()
     with torch.no_grad():
         output = torch.squeeze(model(img.to(device))).cpu()
         predict = torch.softmax(output, dim=0)
         predict_cla = torch.argmax(predict).numpy()
 
-    print_res = "class: {}  prob: {:.3f}".format(class_indict[str(predict_cla)], predict[predict_cla].numpy())
-
+    print_res = "real: {}   predict: {}   prob: {:.3f}".format(args.real_label, class_indict[str(predict_cla)],
+                                                               predict[predict_cla].numpy())
     plt.title(print_res)
+    plt.xticks([])
+    plt.yticks([])
     print(print_res)
+    plt.savefig('./data/predict.jpg', bbox_inches='tight', dpi=600, pad_inches=0.0)
     plt.show()
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--img_path', type=str, default='./data/tulip.jpg')
+    parser.add_argument('--real_label', type=str, default='tulip')
+    parser.add_argument('--model_name', type=str, default='resnet')
+    parser.add_argument('--num_classes', type=int, default=5)
+    parser.add_argument('--model_weight_path', type=str, default='./weights/resnet34.pth')
+
+    args = parser.parse_args()
+    main(args)

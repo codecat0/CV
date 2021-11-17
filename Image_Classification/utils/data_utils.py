@@ -32,7 +32,7 @@ def read_split_data(root: str, val_rate: float = 0.2, plot_image: bool = False):
     flower_classes.sort()
 
     # 给类别进行编码，生成对应的数字索引
-    class_indices = dict((k, v) for k, v in enumerate(flower_classes))
+    class_indices = dict((k, v) for v, k in enumerate(flower_classes))
     json_str = json.dumps(dict((val, key) for key, val in class_indices.items()), indent=4)
     with open('class_indices.json', 'w') as f:
         f.write(json_str)

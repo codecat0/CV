@@ -107,7 +107,7 @@ class GoogLeNet(nn.Module):
     def __init__(
             self,
             num_classes=1000,
-            aux_logits=True,
+            aux_logits=False,
             transform_input=False,
             init_weights=True,
             blocks=None,
