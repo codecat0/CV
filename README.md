@@ -61,9 +61,9 @@
  - [x] 论文详解: [https://blog.csdn.net/qq_42735631/article/details/121164268](https://blog.csdn.net/qq_42735631/article/details/121164268)
  - [x] 模型代码: [https://github.com/codecat0/CV/tree/main/Object_Detection/Faster_RCNN](https://github.com/codecat0/CV/tree/main/Object_Detection/Faster_RCNN)
 ### 4. SSD 
- - [ ] 论文地址
- - [ ] 论文详解
- - [ ] 模型代码 
+ - [x] 论文地址: [https://arxiv.org/abs/1512.02325](https://arxiv.org/abs/1512.02325)
+ - [x] 论文详解: [https://blog.csdn.net/qq_42735631/article/details/121331064](https://blog.csdn.net/qq_42735631/article/details/121331064)
+ - [x] 模型代码: [https://github.com/codecat0/CV/tree/main/Object_Detection/SSD](https://github.com/codecat0/CV/tree/main/Object_Detection/SSD) 
 ### 5. YOLO系列
  - [ ] 论文地址
  - [ ] 论文详解
