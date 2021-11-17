@@ -86,7 +86,7 @@ class BBoxUtility(object):
             confidence=0.5
     ):
         mbox_loc = predictions[0]
-        mbox_conf = predictions[1]
+        mbox_conf = nn.Softmax(-1)(predictions[1])
 
         results = []
 
