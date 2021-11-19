@@ -15,15 +15,15 @@ def get_lr(optimizer):
         return param_group['lr']
 
 
-def train_one_epoch(model_train, model, ssd_loss, loss_history, optimizer, epoch,
-                    epoch_step, epoch_step_val, train_loader, val_loader, sum_epoh, cuda):
+def train_one_epoch(model, ssd_loss, loss_history, optimizer, epoch,
+                    train_loader, val_loader, sum_epoh, cuda):
     train_loss = 0
     val_loss = 0
-    model_train.train()
+    model.train()
     print('Start Train')
-    with tqdm(total=epoch_step, desc=f'Epoch {epoch+1}/{sum_epoh}', postfix=dict, mininterval=0.3) as pbar:
+    with tqdm(total=len(train_loader), desc=f'Epoch {epoch+1}/{sum_epoh}', postfix=dict, mininterval=0.3) as pbar:
         for iteration, batch in enumerate(train_loader):
-            if iteration >= epoch_step:
+            if iteration >= len(train_loader):
                 break
             images, targets = batch[0], batch[1]
             with torch.no_grad():
@@ -34,7 +34,7 @@ def train_one_epoch(model_train, model, ssd_loss, loss_history, optimizer, epoch
                     images = torch.from_numpy(images).type(torch.FloatTensor)
                     targets = torch.from_numpy(targets).type(torch.FloatTensor)
 
-            out = model_train(images)
+            out = model(images)
             optimizer.zero_grad()
             loss = ssd_loss(targets, out)
             loss.backward()
@@ -50,11 +50,11 @@ def train_one_epoch(model_train, model, ssd_loss, loss_history, optimizer, epoch
             pbar.update(1)
     print('Finish Train')
 
-    model_train.eval()
+    model.eval()
     print('Start Validation')
-    with tqdm(total=epoch_step_val, desc=f'Epoch {epoch + 1}/{sum_epoh}', postfix=dict, mininterval=0.3) as pbar:
+    with tqdm(total=len(val_loader), desc=f'Epoch {epoch + 1}/{sum_epoh}', postfix=dict, mininterval=0.3) as pbar:
         for iteration, batch in enumerate(val_loader):
-            if iteration >= epoch_step_val:
+            if iteration >= len(val_loader):
                 break
             images, targets = batch[0], batch[1]
             with torch.no_grad():
@@ -65,7 +65,7 @@ def train_one_epoch(model_train, model, ssd_loss, loss_history, optimizer, epoch
                     images = torch.from_numpy(images).type(torch.FloatTensor)
                     targets = torch.from_numpy(targets).type(torch.FloatTensor)
 
-                out = model_train(images)
+                out = model(images)
                 optimizer.zero_grad()
                 loss = ssd_loss.forward(targets, out)
                 val_loss += loss.item()
@@ -75,8 +75,8 @@ def train_one_epoch(model_train, model, ssd_loss, loss_history, optimizer, epoch
                 pbar.update(1)
 
     print('Finish Validation')
-    loss_history.append_loss(train_loss / epoch_step, val_loss / epoch_step_val)
+    loss_history.append_loss(train_loss / len(train_loader), val_loss / len(val_loader))
     print('Epoch:' + str(epoch + 1) + '/' + str(sum_epoh))
-    print('Total Loss: %.3f || Val Loss: %.3f ' % (train_loss / epoch_step, val_loss / epoch_step_val))
-    torch.save(model.state_dict(), 'logs/ep%03d-loss%.3f-val_loss%.3f.pth' % (epoch + 1, train_loss / epoch_step, val_loss / epoch_step_val))
+    print('Total Loss: %.3f || Val Loss: %.3f ' % (train_loss / len(train_loader), val_loss / len(val_loader)))
+    torch.save(model.state_dict(), 'logs/ep%03d-loss%.3f-val_loss%.3f.pth' % (epoch + 1, train_loss / len(train_loader), val_loss / len(val_loader)))
 

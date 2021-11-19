@@ -39,7 +39,7 @@ class MultiboxLoss(nn.Module):
     def forward(self, y_true, y_pred):
         """
         :param y_true: batch_size, 8732, 4 + num_classes + 1
-        :param y_pred: batch_size, 8732, 4 + num_classes
+        :param y_pred: loc: (batch_sizem, 8732, 4); conf: (batch_size, 8732, num_classes)
         """
         num_boxes = y_true.size()[1]
         y_pred = torch.cat([y_pred[0], nn.Softmax(-1)(y_pred[1])], dim=-1)

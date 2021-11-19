@@ -41,7 +41,7 @@ def resize_image(image, size, letterbox_image):
     return new_image
 
 
-def get_classe(classes_path):
+def get_classes(classes_path):
     """
     获得分类类别、类别总数
     """

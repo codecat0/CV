@@ -20,7 +20,7 @@ from PIL import Image, ImageDraw, ImageFont
 from nets.ssd import SSD300
 from utils.anchor_utils import get_anchors
 from utils.box_utils import BBoxUtility
-from dataset.data_utils import cvtColor, get_classe, resize_image, preprocess_input
+from dataset.data_utils import cvtColor, get_classes, resize_image, preprocess_input
 
 
 class SSDPredictor(object):
@@ -47,7 +47,7 @@ class SSDPredictor(object):
         for name, value in kwargs.items():
             setattr(self, name, value)
 
-        self.class_names, self.num_classes = get_classe(self.classes_path)
+        self.class_names, self.num_classes = get_classes(self.classes_path)
         self.anchors = torch.from_numpy(get_anchors(
             input_shape=self.input_shape,
             anchor_size=self.anchor_size
