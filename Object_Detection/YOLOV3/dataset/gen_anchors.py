@@ -172,4 +172,4 @@ if __name__ == '__main__':
     model = AnchorKmeans(k=9)
     model.fit(boxes)
     print("Avg IOU is: ", model.avg_iou())
-    print("The result anchors: \n", model.anchors_ * 416)
+    print("The result anchors: \n", np.round(model.anchors_ * 416).astype(np.int32))
