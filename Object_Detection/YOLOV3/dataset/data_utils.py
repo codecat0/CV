@@ -28,6 +28,7 @@ def resize_image(image, size, letterbox_image):
     """
     iw, ih = image.size
     w, h = size
+    # 是否保持原始图像比例，对图像进行resize操作
     if letterbox_image:
         scale = min(w/iw, h/ih)
         nw = int(iw*scale)
