@@ -148,8 +148,8 @@ class AnchorKmeans(object):
         """
 
         # 这里利用广播机制
-        w_min = np.minimum(boxes[:, 0, np.newaxis], anchors[np.newaxis, :, 0])
-        h_min = np.minimum(boxes[:, 1, np.newaxis], anchors[np.newaxis, :, 1])
+        w_min = np.minimum(boxes[:, None, 0], anchors[:, 0])
+        h_min = np.minimum(boxes[:, None, 1], anchors[:, 1])
         inter = w_min * h_min
 
         box_area = boxes[:, 0] * boxes[:, 1]
@@ -169,7 +169,7 @@ if __name__ == '__main__':
     parser = AnnotParser(file_type='xml')
     boxes = parser.parse(annot_dir='../data/VOCdevkit/VOC2007/Annotations')
     print("Box num is: ", len(boxes))
-    model = AnchorKmeans(k=9)
+    model = AnchorKmeans(k=9, random_seed=26)
     model.fit(boxes)
     print("Avg IOU is: ", model.avg_iou())
     print("The result anchors: \n", np.round(model.anchors_ * 416).astype(np.int32))
