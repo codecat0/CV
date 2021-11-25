@@ -31,7 +31,7 @@ def make_last_layers(channel_list, in_channels, out_channels):
         conv2d(channel_list[0], channel_list[1], 3),
         conv2d(channel_list[1], channel_list[0], 1),
         conv2d(channel_list[0], channel_list[1], 3),
-        nn.Conv2d(channel_list[1], out_channels, kernel_size=1, bias=False)
+        nn.Conv2d(channel_list[1], out_channels, kernel_size=1, bias=True)
     )
 
 

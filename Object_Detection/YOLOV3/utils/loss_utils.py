@@ -97,8 +97,8 @@ class YOLOLoss(nn.Module):
         loss_y = torch.sum(self.MSELoss(y, y_true[..., 1]) * box_loss_scale * y_true[..., 4])
 
         # 计算宽高调整值的loss
-        loss_w = torch.sum(self.MSELoss(torch.sqrt(w), torch.sqrt(y_true[..., 2])) * box_loss_scale * y_true[..., 4])
-        loss_h = torch.sum(self.MSELoss(torch.sqrt(h), torch.sqrt(y_true[..., 3])) * box_loss_scale * y_true[..., 4])
+        loss_w = torch.sum(self.MSELoss(w, y_true[..., 2]) * box_loss_scale * y_true[..., 4])
+        loss_h = torch.sum(self.MSELoss(h, y_true[..., 3]) * box_loss_scale * y_true[..., 4])
 
         # 计算置信度的loss
         loss_conf = torch.sum(self.BCELoss(conf, y_true[..., 4]) * y_true[..., 4]) + torch.sum(
@@ -154,7 +154,7 @@ class YOLOLoss(nn.Module):
                 y_true[b, best_n, i, j, 2] = math.log(batch_target[t, 2] / anchors[best_n][0])
                 y_true[b, best_n, i, j, 3] = math.log(batch_target[t, 3] / anchors[best_n][1])
                 y_true[b, best_n, i, j, 4] = 1
-                y_true[b, j, i, j, c + 5] = 1
+                y_true[b, best_n, i, j, c + 5] = 1
 
                 # 大目标loss权重小，小目标loss权重大
                 box_loss_scale[b, best_n, i, j] = batch_target[t, 2] * batch_target[t, 3] / in_w / in_h
@@ -230,7 +230,6 @@ class YOLOLoss(nn.Module):
         :param box_a: 真实框信息：(num_true_box, 4) 4: x,y,w,h
         :param box_b: 先验框信息：(num_anchors, 4) 4: x,y,w,h
         """
-        eps = 1e-7
         # 计算真实框的左上角和右下角
         box_a_x1, box_a_x2 = box_a[:, 0] - box_a[:, 2] / 2, box_a[:, 0] + box_a[:, 2] / 2
         box_a_y1, box_a_y2 = box_a[:, 1] - box_a[:, 3] / 2, box_a[:, 1] + box_a[:, 3] / 2
@@ -241,14 +240,14 @@ class YOLOLoss(nn.Module):
         inter = (torch.min(box_a_x2[:, None], box_b_x2) - torch.max(box_a_x1[:, None], box_b_x1)).clamp(0) * \
                 (torch.min(box_a_y2[:, None], box_b_y2) - torch.max(box_a_y1[:, None], box_b_y1)).clamp(0)
 
-        w_a, h_a = box_a_x2 - box_a_x1, box_a_y2 - box_b_y1
+        w_a, h_a = box_a_x2 - box_a_x1, box_a_y2 - box_a_y1
         w_b, h_b = box_b_x2 - box_b_x1, box_b_y2 - box_b_y1
         area_a = w_a * h_a
         area_b = w_b * h_b
-        union = area_a[:, None] + area_b - inter + eps
+        union = area_a[:, None] + area_b - inter
         return inter / union
 
-def weights_init(net, init_type='normal', init_gain = 0.02):
+def weights_init(net, init_type='normal', init_gain=0.02):
     def init_func(m):
         classname = m.__class__.__name__
         if hasattr(m, 'weight') and classname.find('Conv') != -1:
