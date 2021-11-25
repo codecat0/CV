@@ -30,7 +30,7 @@ class DecodeBox(object):
                         batch_size, 3, 52, 52, 25
         """
         outputs = []
-        device = inputs.device
+        device = inputs[0].device
         for i, input in enumerate(inputs):
             batch_size = input.size(0)
             input_height = input.size(2)
@@ -131,7 +131,7 @@ class DecodeBox(object):
                 # 对每一个类别进行NMS处理
                 detections_by_class = detections[detections[:, -1] == c]
                 keep = nms(
-                    boxes=detections[:, :4],
+                    boxes=detections_by_class[:, :4],
                     scores=detections_by_class[:, 4] * detections_by_class[:, 5],
                     iou_threshold=nms_threshold
                 )

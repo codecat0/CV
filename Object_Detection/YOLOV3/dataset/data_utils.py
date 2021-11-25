@@ -52,7 +52,7 @@ def get_classes(classes_path):
     return class_names, len(class_names)
 
 
-def preprocee_input(image):
+def preprocess_input(image):
     """
     归一化
     """
