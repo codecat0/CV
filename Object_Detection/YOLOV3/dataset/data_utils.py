@@ -58,3 +58,11 @@ def preprocee_input(image):
     """
     image /= 255.0
     return image
+
+
+def get_anchors(anchor_path):
+    with open(anchor_path, encoding='utf-8') as f:
+        anchors = f.readline()
+    anchors = [float(x) for x in anchors.split(',')]
+    anchors = np.array(anchors).reshape(-1, 2)
+    return anchors, len(anchors)
