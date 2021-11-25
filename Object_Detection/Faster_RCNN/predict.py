@@ -140,7 +140,8 @@ class FRCNNPredictor(object):
 
             for j in range(thinckness):
                 draw.rectangle([left + j, top + j, right - j, bottom - j], outline=self.colors[c])
-            draw.text(text_origin, str(label, 'UTF-8'), fill=(255, 255, 255), font=font)
+            draw.rectangle([tuple(text_origin), tuple(text_origin + label_size)], fill=self.colors[c])
+            draw.text(text_origin, str(label, 'UTF-8'), fill=(0, 0, 0), font=font)
             del draw
         return image
 
