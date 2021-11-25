@@ -65,9 +65,18 @@
  - [x] 论文详解: [https://blog.csdn.net/qq_42735631/article/details/121331064](https://blog.csdn.net/qq_42735631/article/details/121331064)
  - [x] 模型代码: [https://github.com/codecat0/CV/tree/main/Object_Detection/SSD](https://github.com/codecat0/CV/tree/main/Object_Detection/SSD) 
 ### 5. YOLO系列
- - [ ] 论文地址
- - [ ] 论文详解
+#### 5.1 YOLOV1
+ - [x] 论文地址: [https://arxiv.org/abs/1506.02640](https://arxiv.org/abs/1506.02640)
+ - [x] 论文详解: [https://blog.csdn.net/qq_42735631/article/details/121445432](https://blog.csdn.net/qq_42735631/article/details/121445432)
  - [ ] 模型代码 
+#### 5.2 YOLOV2
+- [x] 论文地址: [https://arxiv.org/abs/1612.08242](https://arxiv.org/abs/1612.08242)
+- [x] 论文详解: [https://blog.csdn.net/qq_42735631/article/details/121456856](https://blog.csdn.net/qq_42735631/article/details/121456856)
+- [ ] 模型代码 
+#### 5.3 YOLOV3
+ - [x] 论文地址: [https://arxiv.org/abs/1804.02767](https://arxiv.org/abs/1804.02767)
+ - [x] 论文详解: [https://blog.csdn.net/qq_42735631/article/details/121479035](https://blog.csdn.net/qq_42735631/article/details/121479035)
+ - [x] 模型代码: [https://github.com/codecat0/CV/tree/main/Object_Detection/YOLOV3](https://github.com/codecat0/CV/tree/main/Object_Detection/YOLOV3) 
 ### 6. FPN
  - [x] 论文地址: [https://arxiv.org/abs/1612.03144](https://arxiv.org/abs/1612.03144)
  - [ ] 论文详解
