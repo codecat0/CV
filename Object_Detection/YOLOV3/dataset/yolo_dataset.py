@@ -12,7 +12,7 @@ import numpy as np
 from PIL import Image
 from torch.utils.data.dataset import Dataset
 
-from .data_utils import cvtColor, preprocee_input
+from .data_utils import cvtColor, preprocess_input
 
 
 class YoLoDataset(Dataset):
@@ -34,7 +34,7 @@ class YoLoDataset(Dataset):
             input_shape=self.input_shape,
             is_image_enhance=self.train
         )
-        image = np.transpose(preprocee_input(np.array(image, dtype=np.float32)), (2, 0, 1))
+        image = np.transpose(preprocess_input(np.array(image, dtype=np.float32)), (2, 0, 1))
         box = np.array(box, dtype=np.float32)
         if len(box) > 0:
             box[:, [0, 2]] = box[:, [0, 2]] / self.input_shape[1]
