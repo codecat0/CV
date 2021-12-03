@@ -160,7 +160,7 @@ class DecodeBox(object):
             box_hw *= scale
 
         box_mins = box_yx - (box_hw / 2.)
-        box_maxes = box_yx - (box_hw / 2.)
+        box_maxes = box_yx + (box_hw / 2.)
         boxes = np.concatenate([box_mins[..., 0:1], box_mins[..., 1:2], box_maxes[..., 0:1], box_maxes[..., 1:2]], axis=-1)
         boxes *= np.concatenate([image_shape, image_shape], axis=-1)
         return boxes
