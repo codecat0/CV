@@ -186,7 +186,7 @@ class YOLOLoss(nn.Module):
         # (in_w) -> (in_h, in_w) -> (bs * 3, in_h, in_w) -> (bs, 3, in_h, in_w)
         grid_x = torch.linspace(0, in_w - 1, in_w).repeat(in_h, 1).repeat(int(bs * len(self.anchors_mask[l])), 1,
                                                                           1).view(x.shape).float().to(device)
-        grid_y = torch.linspace(0, in_h - 1, in_h).repeat(in_w, 1).repeat(int(bs * len(self.anchors_mask[l])), 1,
+        grid_y = torch.linspace(0, in_h - 1, in_h).repeat(in_w, 1).t().repeat(int(bs * len(self.anchors_mask[l])), 1,
                                                                           1).view(y.shape).float().to(device)
 
         # 生成先验框的宽高

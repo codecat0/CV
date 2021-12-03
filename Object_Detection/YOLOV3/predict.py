@@ -28,7 +28,7 @@ class YoLoPredictor(object):
         'model_path': './model_data/yolo_weights.pth',
         'classes_path': './model_data/voc_classes.txt',
         'anchors_path': './model_data/yolo_anchors.txt',
-        'anchors_mask': [[0, 1, 2], [3, 4, 5], [6, 7, 8]],
+        'anchors_mask': [[6, 7, 8], [3, 4, 5], [0, 1, 2]],
         'input_shape': (416, 416),
         'confidence': 0.5,
         'nms_iou': 0.3,
