@@ -33,7 +33,7 @@ def main(args):
     anchors, num_anchors = get_anchors(args.anchors_path)
 
     model = YoLo(
-        anchor_mask=anchors_mask,
+        anchors_mask=anchors_mask,
         num_classes=num_classes
     )
     weights_init(model)
@@ -56,7 +56,8 @@ def main(args):
         num_classes=num_classes,
         input_shape=input_shape,
         cuda=cuda,
-        anchors_mask=anchors_mask
+        anchors_mask=anchors_mask,
+        label_smoothing=args.label_smoothing
     )
 
     loss_history = LossHistory(log_dir='logs/')
@@ -73,12 +74,14 @@ def main(args):
         annotation_lines=train_lines,
         input_shape=input_shape,
         num_classes=num_classes,
+        mosaic=args.mosaic,
         train=True
     )
     val_dataset = YoLoDataset(
         annotation_lines=val_lines,
         input_shape=input_shape,
         num_classes=num_classes,
+        mosaic=False,
         train=False
     )
     train_loader = DataLoader(
@@ -139,9 +142,11 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', type=int, default=4)
     parser.add_argument('--classes_path', type=str, default='./model_data/voc_classes.txt')
     parser.add_argument('--anchors_path', type=str, default='./model_data/yolo_anchors.txt')
-    parser.add_argument('--model_path', type=str, default='./model_data/yolo_weights.pth')
+    parser.add_argument('--model_path', type=str, default='./model_data/yolo4_voc_weights.pth')
     parser.add_argument('--train_annotation_path', type=str, default='./model_data/train.txt')
     parser.add_argument('--val_annotation_path', type=str, default='./model_data/val.txt')
+    parser.add_argument('--label_smoothing', type=float, default=0.01)
+    parser.add_argument('--mosaic', type=bool, default=True)
     parser.add_argument('--lr', type=float, default=1e-4)
     parser.add_argument('--freeze_train', type=bool, default=False)
     parser.add_argument('--init_epoch', type=int, default=0)

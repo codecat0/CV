@@ -11,7 +11,7 @@ from collections import OrderedDict
 
 import torch
 import torch.nn as nn
-from csp_draknet import darknet53
+from .csp_draknet import darknet53
 
 
 def conv2d(in_channels, out_channels, kernel_size, stride=1):

@@ -148,7 +148,7 @@ class YOLOLoss(nn.Module):
 
         # 计算回归损失
         ciou_loss = (1 - self.box_ciou(pred_boxes[y_true[..., 4] == 1], y_true[..., :4][y_true[..., 4] == 1])) * \
-                    box_loss_scale[y_true[..., 1] == 1]
+                    box_loss_scale[y_true[..., 4] == 1]
         loss_loc = torch.sum(ciou_loss)
 
         # 计算置信度的loss
@@ -202,10 +202,10 @@ class YOLOLoss(nn.Module):
                 # 将此先验框标记为包含物体
                 noobj_mask[b, best_n, i, j] = 0
                 # 获取先验框调整参数
-                y_true[b, best_n, i, j, 0] = batch_target[t, 0] - j.float()
-                y_true[b, best_n, i, j, 1] = batch_target[t, 1] - i.float()
-                y_true[b, best_n, i, j, 2] = math.log(batch_target[t, 2] / anchors[best_n][0])
-                y_true[b, best_n, i, j, 3] = math.log(batch_target[t, 3] / anchors[best_n][1])
+                y_true[b, best_n, i, j, 0] = batch_target[t, 0]
+                y_true[b, best_n, i, j, 1] = batch_target[t, 1]
+                y_true[b, best_n, i, j, 2] = batch_target[t, 2]
+                y_true[b, best_n, i, j, 3] = batch_target[t, 3]
                 y_true[b, best_n, i, j, 4] = 1
                 y_true[b, best_n, i, j, c + 5] = 1
 
