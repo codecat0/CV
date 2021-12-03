@@ -103,7 +103,7 @@ class YoLo(nn.Module):
         self.conv_for_P3 = conv2d(256, 128, 1)
         self.make_five_conv2 = make_five_conv([128, 256], 256)
 
-        self.yolo_head3 = yolo_head([256, len(anchors_mask[2]) * (5 + num_classes)], 128)
+        self.yolo_head3 = yolo_head([256, len(anchors_mask[0]) * (5 + num_classes)], 128)
 
         self.down_sample1 = conv2d(128, 256, 3, stride=2)
         self.make_five_conv3 = make_five_conv([256, 512], 512)
@@ -111,7 +111,7 @@ class YoLo(nn.Module):
 
         self.down_sample2 = conv2d(256, 512, 3, stride=2)
         self.make_five_conv4 = make_five_conv([512, 1024], 1024)
-        self.yolo_head1 = yolo_head([1024, len(anchors_mask[0]) * (5 + num_classes)], 512)
+        self.yolo_head1 = yolo_head([1024, len(anchors_mask[2]) * (5 + num_classes)], 512)
 
     def forward(self, x):
         x2, x1, x0 = self.backbone(x)
