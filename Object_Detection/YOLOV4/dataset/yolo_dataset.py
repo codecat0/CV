@@ -302,3 +302,13 @@ class YoLoDataset(Dataset):
                 merge_box.append(tmp_box)
 
         return merge_box
+
+
+def yolo_dataset_collate(batch):
+    images = []
+    bboxes = []
+    for img, box in batch:
+        images.append(img)
+        bboxes.append(box)
+    images = np.array(images)
+    return images, bboxes
