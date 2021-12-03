@@ -14,7 +14,7 @@ import torch.nn as nn
 
 
 class YOLOLoss(nn.Module):
-    def __init__(self, anchors, num_classes, input_shape, cuda, anchors_mask=[[0, 1, 2], [3, 4, 5], [6, 7, 8]],
+    def __init__(self, anchors, num_classes, input_shape, cuda, anchors_mask=[[6,7,8], [3,4,5], [0,1,2]],
                  label_smoothing=0):
         super(YOLOLoss, self).__init__()
         # anchors: [[10, 13], [16, 30], [33, 23], -> 52x52

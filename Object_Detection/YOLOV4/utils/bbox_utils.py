@@ -13,7 +13,7 @@ from torchvision.ops import nms
 
 
 class DecodeBox(object):
-    def __init__(self, anchors, num_classes, input_shape, anchors_mask=[[0, 1, 2], [3, 4, 5], [6, 7, 8]]):
+    def __init__(self, anchors, num_classes, input_shape, anchors_mask=[[6,7,8], [3,4,5], [0,1,2]]):
         super(DecodeBox, self).__init__()
         self.anchors = anchors
         self.num_classes = num_classes
@@ -23,7 +23,6 @@ class DecodeBox(object):
 
     def decode_box(self, inputs):
         """
-
         :param inputs: 输入的input一共有三个，他们的shape分别是:
                         batch_size, 3, 13, 13, 25 = 5 + num_classes
                         batch_size, 3, 26, 26, 25
@@ -60,13 +59,13 @@ class DecodeBox(object):
 
             # 生成网格，先验框中心，网格左上角
             grid_x = torch.linspace(0, input_width-1, input_width).repeat(input_height, 1).repeat(batch_size * len(self.anchors_mask[i]), 1, 1).view(x.shape).float().to(device)
-            grid_y = torch.linspace(0, input_height-1, input_height).repeat(input_width, 1).repeat(batch_size * len(self.anchors_mask[i]), 1, 1).view(y.shape).float().to(device)
+            grid_y = torch.linspace(0, input_height-1, input_height).repeat(input_width, 1).t().repeat(batch_size * len(self.anchors_mask[i]), 1, 1).view(y.shape).float().to(device)
 
             # 按照网格格式生成先验框的宽高
             anchor_w = torch.FloatTensor(scaled_anchors).index_select(1, torch.tensor([0])).to(device)
             anchor_h = torch.FloatTensor(scaled_anchors).index_select(1, torch.tensor([1])).to(device)
-            anchor_w = anchor_w.repeat(batch_size, 1).repeat(1, input_height * input_width).view(w.shape)
-            anchor_h = anchor_h.repeat(batch_size, 1).repeat(1, input_height * input_width).view(h.shape)
+            anchor_w = anchor_w.repeat(batch_size, 1).repeat(1, 1, input_height * input_width).view(w.shape)
+            anchor_h = anchor_h.repeat(batch_size, 1).repeat(1, 1, input_height * input_width).view(h.shape)
 
             # 利用预测结果对先验框进行调整
             pred_boxes = torch.FloatTensor(prediction[..., :4].shape).to(device)
@@ -160,7 +159,7 @@ class DecodeBox(object):
             box_hw *= scale
 
         box_mins = box_yx - (box_hw / 2.)
-        box_maxes = box_yx - (box_hw / 2.)
+        box_maxes = box_yx + (box_hw / 2.)
         boxes = np.concatenate([box_mins[..., 0:1], box_mins[..., 1:2], box_maxes[..., 0:1], box_maxes[..., 1:2]], axis=-1)
         boxes *= np.concatenate([image_shape, image_shape], axis=-1)
         return boxes

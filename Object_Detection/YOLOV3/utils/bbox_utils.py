@@ -60,7 +60,7 @@ class DecodeBox(object):
 
             # 生成网格，先验框中心，网格左上角
             grid_x = torch.linspace(0, input_width-1, input_width).repeat(input_height, 1).repeat(batch_size * len(self.anchors_mask[i]), 1, 1).view(x.shape).float().to(device)
-            grid_y = torch.linspace(0, input_height-1, input_height).repeat(input_width, 1).repeat(batch_size * len(self.anchors_mask[i]), 1, 1).view(y.shape).float().to(device)
+            grid_y = torch.linspace(0, input_height-1, input_height).repeat(input_width, 1).t().repeat(batch_size * len(self.anchors_mask[i]), 1, 1).view(y.shape).float().to(device)
 
             # 按照网格格式生成先验框的宽高
             anchor_w = torch.FloatTensor(scaled_anchors).index_select(1, torch.tensor([0])).to(device)
