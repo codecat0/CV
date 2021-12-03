@@ -221,7 +221,7 @@ class YOLOLoss(nn.Module):
                 # (num_anchors,) -> (3, in_h, in_w)
                 anch_ious_max = anch_ious_max.view(pred_boxes[b].size()[:3])
                 noobj_mask[b][anch_ious_max > self.ignore_threshold] = 0
-            return noobj_mask
+        return noobj_mask
 
     @staticmethod
     def calculate_iou_xywh(box_a, box_b):
