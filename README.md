@@ -77,6 +77,10 @@
  - [x] 论文地址: [https://arxiv.org/abs/1804.02767](https://arxiv.org/abs/1804.02767)
  - [x] 论文详解: [https://blog.csdn.net/qq_42735631/article/details/121479035](https://blog.csdn.net/qq_42735631/article/details/121479035)
  - [x] 模型代码: [https://github.com/codecat0/CV/tree/main/Object_Detection/YOLOV3](https://github.com/codecat0/CV/tree/main/Object_Detection/YOLOV3) 
+#### 5.3 YOLOV4
+ - [x] 论文地址: [https://arxiv.org/abs/2004.10934](https://arxiv.org/abs/2004.10934)
+ - [x] 论文详解: [https://blog.csdn.net/qq_42735631/article/details/121621972](https://blog.csdn.net/qq_42735631/article/details/121621972)
+ - [x] 模型代码: [https://github.com/codecat0/CV/tree/main/Object_Detection/YOLOV4](https://github.com/codecat0/CV/tree/main/Object_Detection/YOLOV4) 
 ### 6. FPN
  - [x] 论文地址: [https://arxiv.org/abs/1612.03144](https://arxiv.org/abs/1612.03144)
  - [ ] 论文详解
