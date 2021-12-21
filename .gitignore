@@ -13,3 +13,4 @@
 /Object_Detection/YOLOV3/dataset/.ipynb_checkpoints/
 /Object_Detection/YOLOV3/model_data/yolo_weights.pth
 /Object_Detection/YOLOV4/model_data/yolo4_voc_weights.pth
+/data/

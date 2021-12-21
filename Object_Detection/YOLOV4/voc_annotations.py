@@ -113,7 +113,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--voc_path',
         type=str,
-        default='../data/VOCdevkit/VOC2007',
+        default='../../data/VOCdevkit/VOC2007',
         help='VOC数据集路径'
     )
     parser.add_argument(
