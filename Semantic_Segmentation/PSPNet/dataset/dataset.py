@@ -43,7 +43,7 @@ class PSPNetDataset(Dataset):
         png = np.array(png)
         png[png >= self.num_classes] = self.num_classes
 
-        seg_labels = np.eys(self.num_classes + 1)[png.reshape(-1)]
+        seg_labels = np.eye(self.num_classes + 1)[png.reshape(-1)]
         seg_labels = seg_labels.reshape((int(self.input_shape[1]), int(self.input_shape[0]), self.num_classes + 1))
 
         return jpg, png, seg_labels
@@ -131,3 +131,21 @@ def pspnet_dataset_collate(batch):
     pngs = np.array(pngs)
     seg_labels = np.array(seg_labels)
     return images, pngs, seg_labels
+
+
+if __name__ == '__main__':
+    with open('../../data/VOCdevkit/VOC2007/ImageSets/Segmentation/train.txt', 'r') as f:
+        train_lines = f.readlines()
+
+    train_dataset = PSPNetDataset(
+        annotation_lines=train_lines,
+        input_shape=(480, 480),
+        num_classes=21,
+        train=True,
+        dataset_path='../../data/VOCdevkit/VOC2007'
+    )
+
+    jpg, png, seg_label = train_dataset[0]
+    print(jpg.shape)
+    print(png.shape)
+    print(seg_label.shape)
