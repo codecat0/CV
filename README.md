@@ -112,9 +112,9 @@
  - [ ] 论文详解
  - [ ] 模型代码 
 ### 6. PSPNet
- - [ ] 论文地址
- - [ ] 论文详解
- - [ ] 模型代码
+ - [x] 论文地址：[https://arxiv.org/abs/1612.01105](https://arxiv.org/abs/1612.01105)
+ - [x] 论文详解: [https://blog.csdn.net/qq_42735631/article/details/122069409](https://blog.csdn.net/qq_42735631/article/details/122069409)
+ - [x] 模型代码: [https://github.com/codecat0/CV/tree/main/Semantic_Segmentation/PSPNet](https://github.com/codecat0/CV/tree/main/Semantic_Segmentation/PSPNet)
 ## Generative Models
 ### 1. AutoEncoder
  - [ ] 论文地址
