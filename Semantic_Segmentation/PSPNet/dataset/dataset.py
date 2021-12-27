@@ -13,7 +13,7 @@ import numpy as np
 from PIL import Image
 from torch.utils.data import Dataset
 
-from utils import cvtColor, preprocess_input
+from .utils import cvtColor, preprocess_input
 
 
 class PSPNetDataset(Dataset):

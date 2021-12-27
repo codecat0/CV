@@ -9,8 +9,8 @@
 """
 import torch
 from tqdm import tqdm
-from loss_utils import CE_Loss, Focal_Loss, Dice_Loss
-from metrics_utils import f_score
+from .loss_utils import CE_Loss, Focal_Loss, Dice_Loss
+from .metrics_utils import f_score
 
 
 def get_lr(optimizer):

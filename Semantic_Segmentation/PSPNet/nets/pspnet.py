@@ -13,8 +13,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from resnet import resnet50
-from mobilenetv2 import mobilenetv2
+from .resnet import resnet50
+from .mobilenetv2 import mobilenetv2
 
 
 class ResNet(nn.Module):

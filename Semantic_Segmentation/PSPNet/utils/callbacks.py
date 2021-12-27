@@ -16,7 +16,7 @@ from matplotlib import pyplot as plt
 class LossHistory:
     def __init__(self, log_dir):
         curr_time = datetime.datetime.now()
-        time_str = datetime.datetime.strftime(curr_time, fmt='%Y_%m_%d_%H_%M_%S')
+        time_str = datetime.datetime.strftime(curr_time, '%Y_%m_%d_%H_%M_%S')
         self.log_dir = log_dir
         self.time_str = time_str
         self.save_path = os.path.join(self.log_dir, 'loss_' + str(self.time_str))
