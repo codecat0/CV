@@ -135,6 +135,7 @@ def main(args):
             Epochs=args.sum_epoch,
             cuda=cuda
         )
+        lr_scheduler.step()
 
 
 if __name__ == '__main__':
