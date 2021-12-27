@@ -37,8 +37,13 @@ def f_score(inputs, target, beta=1, smooth=1e-5, threshold=0.5):
     fp = torch.sum(temp_inputs, dim=(0, 1)) - tp
     fn = torch.sum(temp_target[..., :-1], dim=(0, 1)) - tp
 
-    score = ((1 + beta ** 2) * tp + smooth) / ((1 + beta ** 2) * tp + beta ** 2 * fn + fp + smooth)
-    score = score.mean()
+    precision = (tp + smooth) / (tp + fp + smooth)
+    recall = (tp + smooth) / (tp + fn + smooth)
+    precision = precision.mean()
+    recall = recall.mean()
+    score = 2 * precision * recall / (precision + recall)
+    # score = ((1 + beta ** 2) * tp + smooth) / ((1 + beta ** 2) * tp + beta ** 2 * fn + fp + smooth)
+    # score = score.mean()
     return score
 
 
