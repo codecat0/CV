@@ -10,7 +10,7 @@
 import torch
 import torch.nn as nn
 
-from vgg import VGG16
+from .vgg import VGG16
 
 
 class unetUp(nn.Module):
