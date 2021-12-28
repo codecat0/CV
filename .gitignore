@@ -15,3 +15,4 @@
 /Object_Detection/YOLOV4/model_data/yolo4_voc_weights.pth
 /data/
 /Semantic_Segmentation/PSPNet/model_data/pspnet_resnet50.pth
+/Semantic_Segmentation/UNet/model_data/unet_vgg_voc.pth
