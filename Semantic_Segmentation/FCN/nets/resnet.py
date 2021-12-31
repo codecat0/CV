@@ -102,5 +102,5 @@ def resent34(num_classes=1000, pretrained=False):
     model = ResNet(BasicBlock, [3, 4, 6, 3], num_classes=num_classes)
     if pretrained:
         state_dict = load_state_dict_from_url(model_urls['resnet34'], progress=True)
-        model.load_state_dict(state_dict)
+        model.load_state_dict(state_dict, strict=False)
     return model
