@@ -18,7 +18,7 @@ def get_lr(optimizer):
         return param_group['lr']
 
 
-def train_one_epoch(model, loss_history, optimizer, epoch, train_loader, val_loader, Epochs, cuda, dice_loss, focal_loss, cls_weights, aux_branch, num_classes):
+def train_one_epoch(model, loss_history, optimizer, epoch, train_loader, val_loader, Epochs, cuda, dice_loss, focal_loss, cls_weights, num_classes):
     total_loss = 0
     total_f_score = 0
     val_loss = 0
@@ -44,29 +44,16 @@ def train_one_epoch(model, loss_history, optimizer, epoch, train_loader, val_loa
                     weights = weights.cuda()
 
             optimizer.zero_grad()
-            if aux_branch:
-                aux_outputs, outputs = model(imgs)
-                if focal_loss:
-                    aux_loss = Focal_Loss(aux_outputs, pngs, weights, num_classes=num_classes)
-                    main_loss = Focal_Loss(outputs, pngs, weights, num_classes=num_classes)
-                else:
-                    aux_loss = CE_Loss(aux_outputs, pngs, weights, num_classes=num_classes)
-                    main_loss = CE_Loss(outputs, pngs, weights, num_classes=num_classes)
-                loss = aux_loss + main_loss
-                if dice_loss:
-                    aux_dice_loss = Dice_Loss(aux_outputs, labels)
-                    main_dice_loss = Dice_Loss(outputs, labels)
-                    loss = loss + aux_dice_loss + main_dice_loss
-            else:
-                outputs = model(imgs)
-                if focal_loss:
-                    loss = Focal_Loss(outputs, pngs, weights, num_classes=num_classes)
-                else:
-                    loss = CE_Loss(outputs, pngs, weights, num_classes=num_classes)
 
-                if dice_loss:
-                    main_dice_loss = Dice_Loss(outputs, labels)
-                    loss = loss + main_dice_loss
+            outputs = model(imgs)
+            if focal_loss:
+                loss = Focal_Loss(outputs, pngs, weights, num_classes=num_classes)
+            else:
+                loss = CE_Loss(outputs, pngs, weights, num_classes=num_classes)
+
+            if dice_loss:
+                main_dice_loss = Dice_Loss(outputs, labels)
+                loss = loss + main_dice_loss
 
             with torch.no_grad():
                 _f_score = f_score(outputs, labels)
@@ -103,29 +90,16 @@ def train_one_epoch(model, loss_history, optimizer, epoch, train_loader, val_loa
                     labels = labels.cuda()
                     weights = weights.cuda()
 
-                if aux_branch:
-                    aux_outputs, outputs = model(imgs)
-                    if focal_loss:
-                        aux_loss = Focal_Loss(aux_outputs, pngs, weights, num_classes=num_classes)
-                        main_loss = Focal_Loss(outputs, pngs, weights, num_classes=num_classes)
-                    else:
-                        aux_loss = CE_Loss(aux_outputs, pngs, weights, num_classes=num_classes)
-                        main_loss = CE_Loss(outputs, pngs, weights, num_classes=num_classes)
-                    loss = aux_loss + main_loss
-                    if dice_loss:
-                        aux_dice_loss = Dice_Loss(aux_outputs, labels)
-                        main_dice_loss = Dice_Loss(outputs, labels)
-                        loss = loss + aux_dice_loss + main_dice_loss
-                else:
-                    outputs = model(imgs)
-                    if focal_loss:
-                        loss = Focal_Loss(outputs, pngs, weights, num_classes=num_classes)
-                    else:
-                        loss = CE_Loss(outputs, pngs, weights, num_classes=num_classes)
 
-                    if dice_loss:
-                        main_dice_loss = Dice_Loss(outputs, labels)
-                        loss = loss + main_dice_loss
+                outputs = model(imgs)
+                if focal_loss:
+                    loss = Focal_Loss(outputs, pngs, weights, num_classes=num_classes)
+                else:
+                    loss = CE_Loss(outputs, pngs, weights, num_classes=num_classes)
+
+                if dice_loss:
+                    main_dice_loss = Dice_Loss(outputs, labels)
+                    loss = loss + main_dice_loss
 
                 _f_score = f_score(outputs, labels)
 
