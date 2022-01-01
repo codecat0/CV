@@ -30,7 +30,7 @@ def make_layers(cfg):
                 nn.BatchNorm2d(v),
                 nn.ReLU(inplace=True)
             ]
-        in_channels = v
+            in_channels = v
     return nn.Sequential(*layers)
 
 
