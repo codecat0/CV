@@ -215,7 +215,7 @@ class UNetPredictor(object):
 
 
 if __name__ == '__main__':
-    pspnet_predictor = UNetPredictor()
+    unet_predictor = UNetPredictor()
 
     # 用于指定测试的模式
     mode = 'predict'
@@ -241,7 +241,7 @@ if __name__ == '__main__':
                 print('Open Error! Try again!')
                 continue
             else:
-                r_image = pspnet_predictor.detect_image(image)
+                r_image = unet_predictor.detect_image(image)
                 r_image.save('./img/1_dr.jpg')
                 r_image.show()
 
@@ -269,7 +269,7 @@ if __name__ == '__main__':
             # 转换为Image
             frame = Image.fromarray(np.uint8(frame))
             # 进行检测
-            frame = np.array(pspnet_predictor.detect_image(frame))
+            frame = np.array(unet_predictor.detect_image(frame))
             # 格式转换 RGB->BGR满足opencv显示格式
             frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
@@ -299,7 +299,7 @@ if __name__ == '__main__':
         except:
             print('Open Error! Try again!')
         else:
-            tact_time = pspnet_predictor.get_FPS(image, test_interval)
+            tact_time = unet_predictor.get_FPS(image, test_interval)
             print(str(tact_time) + ' seconds, ' + str(1 / tact_time) + 'FPS, @batch_size 1')
 
     # 遍历文件夹进行检测并保存
@@ -309,7 +309,7 @@ if __name__ == '__main__':
             if img_name.lower().endswith(('.bmp', '.dib', '.png', '.jpg', '.jpeg', '.pbm', '.pgm', '.ppm', '.tif', '.tiff')):
                 image_path = os.path.join(dir_original_path, img_name)
                 image = Image.open(image_path)
-                r_image = pspnet_predictor.detect_image(image)
+                r_image = unet_predictor.detect_image(image)
                 if not os.path.exists(dir_save_path):
                     os.makedirs(dir_save_path)
                 r_image.save(os.path.join(dir_save_path, img_name))
