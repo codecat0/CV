@@ -10,8 +10,8 @@
 import torch
 import torch.nn as nn
 
-from vggnet import vgg16
-from resnet import resent34
+from .vggnet import vgg16
+from .resnet import resent34
 
 
 class FCN(nn.Module):
