@@ -96,21 +96,21 @@
  - [ ] 论文详解
  - [ ] 模型代码
 ### 2. U-Net
-- [ ] 论文地址
-- [ ] 论文详解
-- [ ] 模型代码
+- [x] 论文地址: [https://arxiv.org/abs/1505.04597](https://arxiv.org/abs/1505.04597)
+- [x] 论文详解: [https://blog.csdn.net/qq_42735631/article/details/122182266?spm=1001.2014.3001.5501](https://blog.csdn.net/qq_42735631/article/details/122182266?spm=1001.2014.3001.5501)
+- [x] 模型代码: [https://github.com/codecat0/CV/tree/main/Semantic_Segmentation/UNet](https://github.com/codecat0/CV/tree/main/Semantic_Segmentation/UNet)
 ### 3. FCN
- - [ ] 论文地址
- - [ ] 论文详解
- - [ ] 模型代码
+ - [x] 论文地址: [https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Long_Fully_Convolutional_Networks_2015_CVPR_paper.pdf](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Long_Fully_Convolutional_Networks_2015_CVPR_paper.pdf)
+ - [x] 论文详解: [https://blog.csdn.net/qq_42735631/article/details/122247211?spm=1001.2014.3001.5501](https://blog.csdn.net/qq_42735631/article/details/122247211?spm=1001.2014.3001.5501)
+ - [x] 模型代码: [https://github.com/codecat0/CV/tree/main/Semantic_Segmentation/FCN](https://github.com/codecat0/CV/tree/main/Semantic_Segmentation/FCN)
 ### 4. RCF
  - [ ] 论文地址
  - [ ] 论文详解
  - [ ] 模型代码 
 ### 5. SegNet
- - [ ] 论文地址
- - [ ] 论文详解
- - [ ] 模型代码 
+ - [x] 论文地址: [https://arxiv.org/abs/1511.00561](https://arxiv.org/abs/1511.00561)
+ - [x] 论文详解: [https://blog.csdn.net/qq_42735631/article/details/122252894?spm=1001.2014.3001.5501](https://blog.csdn.net/qq_42735631/article/details/122252894?spm=1001.2014.3001.5501)
+ - [x] 模型代码: [https://github.com/codecat0/CV/tree/main/Semantic_Segmentation/SegNet](https://github.com/codecat0/CV/tree/main/Semantic_Segmentation/SegNet) 
 ### 6. PSPNet
  - [x] 论文地址：[https://arxiv.org/abs/1612.01105](https://arxiv.org/abs/1612.01105)
  - [x] 论文详解: [https://blog.csdn.net/qq_42735631/article/details/122069409](https://blog.csdn.net/qq_42735631/article/details/122069409)
