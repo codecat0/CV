@@ -11,7 +11,7 @@ import os
 from PIL import Image
 from tqdm import tqdm
 
-from predict import UNetPredictor
+from predict import FCNPredictor
 from utils.metrics_utils import compute_mIoU, show_results
 
 
@@ -34,14 +34,14 @@ if __name__ == '__main__':
             os.makedirs(pred_dir)
 
         print('Load model.')
-        unet_predictor = UNetPredictor()
+        fcn_predictor = FCNPredictor()
         print('Load model done.')
 
         print('Get predict result.')
         for image_id in tqdm(image_ids):
             image_path = os.path.join(data_path, 'JPEGImages/' + image_id + '.jpg')
             image = Image.open(image_path)
-            image = unet_predictor.get_miou_png(image)
+            image = fcn_predictor.get_miou_png(image)
             image.save(os.path.join(pred_dir, image_id + '.png'))
         print('Get predict result done.')
 
