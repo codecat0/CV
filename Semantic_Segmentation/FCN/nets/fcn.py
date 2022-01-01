@@ -17,7 +17,6 @@ from resnet import resent34
 class FCN(nn.Module):
     def __init__(self, backbone='resnet34', pretrained=False, num_classes=21):
         super(FCN, self).__init__()
-        self.backbone = backbone
         if backbone == 'resnet34':
             backbone = resent34(pretrained=pretrained)
 
@@ -83,6 +82,7 @@ class FCN(nn.Module):
         else:
             raise NotImplementedError("Unsupported backbone - '{}', Use vgg16 or resnet34".format(backbone))
 
+        self.backbone = backbone
 
     def forward(self, x):
         x1 = self.stage1(x)     # 1/4
