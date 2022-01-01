@@ -28,7 +28,7 @@ from dataset.utils import cvtColor, preprocess_input, resize_image
 class FCNPredictor(object):
     # 模型权重、类别数、特征提取主干网络、输入图像的尺寸、下采样倍数、识别结果与原图是否混合、是否使用GPU
     _defaults = {
-        'model_path': './model_data/unet_vgg_voc.pth',
+        'model_path': '',
         'num_classes': 21,
         'backbone': 'vgg16',
         'input_shape': (512, 512),
