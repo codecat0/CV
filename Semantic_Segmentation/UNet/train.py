@@ -126,7 +126,6 @@ def main(args):
             dice_loss=args.dice_loss,
             focal_loss=args.focal_loss,
             cls_weights=cls_weights,
-            aux_branch=args.aux_branch,
             num_classes=args.num_classes
         )
         lr_scheduler.step()
@@ -147,7 +146,6 @@ def main(args):
             dice_loss=args.dice_loss,
             focal_loss=args.focal_loss,
             cls_weights=cls_weights,
-            aux_branch=args.aux_branch,
             num_classes=args.num_classes
         )
 
@@ -159,7 +157,6 @@ if __name__ == '__main__':
     parser.add_argument('--backbone', type=str, default='vgg')
     parser.add_argument('--downsample_factor', type=int, default=16)
     parser.add_argument('--pretrained', type=bool, default=False)
-    parser.add_argument('--aux_branch', type=bool, default=False)
     parser.add_argument('--model_path', type=str, default='./model_data/unet_vgg_voc.pth')
     parser.add_argument('--data_path', type=str, default='../../data/VOCdevkit/VOC2007')
     parser.add_argument('--lr', type=float, default=5e-5)
