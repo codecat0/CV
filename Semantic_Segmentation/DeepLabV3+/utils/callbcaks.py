@@ -18,7 +18,7 @@ from torch.utils.tensorboard import SummaryWriter
 
 
 class LossHistory(object):
-    def __int__(self, log_dir, model, input_shape):
+    def __init__(self, log_dir, model, input_shape):
         self.time_str = datetime.datetime.strftime(datetime.datetime.now(), '%Y_%m_%d_%H_%M_%S')
         self.log_dir = os.path.join(log_dir, 'loss_' + str(self.time_str))
         self.losses = []
