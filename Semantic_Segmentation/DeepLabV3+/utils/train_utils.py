@@ -124,7 +124,7 @@ def train_one_epoch(model, loss_history, optimizer, epoch, train_loader, val_loa
                 imgs = torch.from_numpy(imgs).type(torch.FloatTensor)
                 pngs = torch.from_numpy(pngs).long()
                 labels = torch.from_numpy(labels).type(torch.FloatTensor)
-                weights = torch.from_numpy(weights)
+                weights = torch.from_numpy(cls_weights)
                 if cuda:
                     imgs = imgs.cuda()
                     pngs = pngs.cuda()
