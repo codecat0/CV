@@ -76,7 +76,7 @@ class LossHistory(object):
         plt.ylabel('Loss')
         plt.legend()
 
-        plt.savefig(os.path.join(self.save_path, 'epoch_loss_' + str(self.time_str) + '.png'))
+        plt.savefig(os.path.join(self.log_dir, 'epoch_loss_' + str(self.time_str) + '.png'))
 
         plt.cla()
         plt.close('all')
