@@ -14,7 +14,7 @@ from PIL import Image
 import torch
 from torch.utils.data.dataset import Dataset
 
-from utils import cvtColor, preprocess_input
+from .utils import cvtColor, preprocess_input
 
 
 class DeepLabDataset(Dataset):
@@ -146,9 +146,12 @@ def deeplab_dataset_collate(batch):
         pngs.append(png)
         seg_labels.append(labels)
 
-    images = torch.from_numpy(np.array(images)).type(torch.FloatTensor)
-    pngs = torch.from_numpy(np.array(pngs)).long()
-    seg_labels = torch.from_numpy(np.array(seg_labels)).type(torch.FloatTensor)
+    # images = torch.from_numpy(np.array(images)).type(torch.FloatTensor)
+    # pngs = torch.from_numpy(np.array(pngs)).long()
+    # seg_labels = torch.from_numpy(np.array(seg_labels)).type(torch.FloatTensor)
+    images = np.array(images)
+    pngs = np.array(pngs)
+    seg_labels = np.array(seg_labels)
 
     return images, pngs, seg_labels
 

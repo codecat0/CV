@@ -12,7 +12,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from mobilenetv2 import mobilenetv2
+from .mobilenetv2 import mobilenetv2
 
 
 def weights_init(net, init_type='normal', init_gain=0.02):
