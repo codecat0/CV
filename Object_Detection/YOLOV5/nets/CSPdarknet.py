@@ -177,7 +177,7 @@ class SPP(nn.Module):
             stride=1
         )
         self.m = nn.ModuleList(
-            [nn.MaxPool2d(kernel_size=kernel_size, stride=1, padding=kernel_size) for kernel_size in kernel_sizes]
+            [nn.MaxPool2d(kernel_size=kernel_size, stride=1, padding=kernel_size // 2) for kernel_size in kernel_sizes]
         )
 
     def forward(self, x):
