@@ -80,7 +80,7 @@ def train_one_epoch(model, yolo_loss, loss_history, optimizer, epoch, train_load
 
             loss_value_all = 0
 
-            for l in range(outputs):
+            for l in range(len(outputs)):
                 loss_item = yolo_loss(l, outputs[l], targets, y_trues[l])
                 loss_value_all += loss_item
 

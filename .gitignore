@@ -17,3 +17,4 @@
 /Semantic_Segmentation/PSPNet/model_data/pspnet_resnet50.pth
 /Semantic_Segmentation/UNet/model_data/unet_vgg_voc.pth
 /Semantic_Segmentation/DeepLabV3+/model_data/deeplab_mobilenetv2.pth
+/Object_Detection/YOLOV5/model_data/yolov5_l.pth

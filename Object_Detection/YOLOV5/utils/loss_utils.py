@@ -34,19 +34,13 @@ class YOLOLoss(nn.Module):
         self.cuda = cuda
 
     @staticmethod
-    def clip_by_tensor(t, t_min, t_max):
-        t = t.float()
-        res = t if t >= t_min else t_min
-        res = res if res <= t_max else t_max
-        return res
-
-    @staticmethod
     def MSELoss(pred, target):
         return torch.pow(pred - target, 2)
 
-    def BCELoss(self, pred, target):
+    @staticmethod
+    def BCELoss(pred, target):
         epsilon = 1e-7
-        pred = self.clip_by_tensor(pred, epsilon, 1.0 - epsilon)
+        pred = torch.clip(pred, epsilon, 1.0 - epsilon)
         output = - target * torch.log(pred) - (1.0 - target) * torch.log(1.0 - pred)
         return output
 
@@ -141,9 +135,9 @@ class YOLOLoss(nn.Module):
         loss = 0
         n = torch.sum(y_true[..., 4] == 1)
         if n != 0:
-            giou = self.box_giou(pred_boxes, y_true[..., 4]).type_as(x)
+            giou = self.box_giou(pred_boxes, y_true[..., :4]).type_as(x)
             loss_loc = torch.mean((1 - giou)[y_true[..., 4] == 1])
-            loss_cls = torch.mean(self.BCELoss(pred_cls[y_true[..., 4] == 1], self.smooth_labels(y_true[..., 5][y_true[..., 4] == 1], self.label_smoothing, self.num_classes)))
+            loss_cls = torch.mean(self.BCELoss(pred_cls[y_true[..., 4] == 1], self.smooth_labels(y_true[..., 5:][y_true[..., 4] == 1], self.label_smoothing, self.num_classes)))
             loss += loss_loc * self.box_ratio + loss_cls * self.cls_ratio
             tobj = torch.where(y_true[..., 4] == 1, giou.detach().clamp(0), torch.zeros_like(y_true[..., 4]))
         else:

@@ -10,7 +10,7 @@
 import torch
 import torch.nn as nn
 
-from CSPdarknet import C3, Conv, CSPDarknet
+from .CSPdarknet import C3, Conv, CSPDarknet
 
 
 class YoloBody(nn.Module):

@@ -15,8 +15,8 @@ import torch
 from PIL import Image
 from torch.utils.data.dataset import Dataset
 
-from data_utils import cvtColor, preprocess_input
-from data_utils import get_classes, get_anchors
+from .data_utils import cvtColor, preprocess_input
+from .data_utils import get_classes, get_anchors
 
 
 class YoloDataset(Dataset):
