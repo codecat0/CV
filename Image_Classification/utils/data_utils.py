@@ -74,21 +74,21 @@ def read_split_data(root: str, val_rate: float = 0.2, plot_image: bool = False):
                 train_images_path.append(img_path)
                 train_images_label.append(image_class)
 
-        print(f"{sum(every_class_num)} images found in dataset.")
-        print(f"{len(train_images_path)} images for training.")
-        print(f"{len(val_images_path)} images for validation.")
+    print(f"{sum(every_class_num)} images found in dataset.")
+    print(f"{len(train_images_path)} images for training.")
+    print(f"{len(val_images_path)} images for validation.")
 
-        if plot_image:
-            plt.bar(range(len(flower_classes)), every_class_num, align='center')
-            plt.xticks(range(len(flower_classes)), flower_classes)
-            for i, v in enumerate(every_class_num):
-                plt.text(x=i, y=v + 5, s=str(v), ha='center')
-            plt.xlabel('image class')
-            plt.ylabel('number of images')
-            plt.title('flower class distribution')
-            plt.show()
+    if plot_image:
+        plt.bar(range(len(flower_classes)), every_class_num, align='center')
+        plt.xticks(range(len(flower_classes)), flower_classes)
+        for i, v in enumerate(every_class_num):
+            plt.text(x=i, y=v + 5, s=str(v), ha='center')
+        plt.xlabel('image class')
+        plt.ylabel('number of images')
+        plt.title('flower class distribution')
+        plt.show()
 
-        return train_images_path, train_images_label, val_images_path, val_images_label
+    return train_images_path, train_images_label, val_images_path, val_images_label
 
 
 class MyDataSet(Dataset):
