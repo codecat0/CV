@@ -40,7 +40,7 @@ def train_one_epoch(model, optimizer, dataloader, device, epoch):
         accu_loss += loss.detach()
 
         dataloader.desc = "[train epoch {}] loss: {:3f}, acc: {:3f}".format(
-            epoch, accu_loss.item()/(step+1), accu_num.item()/(step+1)
+            epoch, accu_loss.item()/(step+1), accu_num.item()/sample_num
         )
 
         if not torch.isfinite(loss):
